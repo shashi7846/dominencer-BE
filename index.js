@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongodb = require("mongodb");
- const DB ="dominencertask"
+ const DB ="dominencertask";
 const URL="mongodb+srv://shashi:shashi1234@cluster0.cwbjp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 const bcrypt = require("bcryptjs");
@@ -110,6 +110,38 @@ app.post("/recregister", async function (req, res) {
 })
 
 
+// app.post("/reclogin", async function (req, res) {
+//     try {
+//         let connection = await mongodb.connect(URL);
+//         let db = connection.db(DB);
+
+//         let user = await db.collection("recruiter").findOne({ email: req.body.email })
+
+//         if (user) {
+//             let isPassword = await bcrypt.compare(req.body.password, user.password);
+//             if (isPassword) {
+
+//                 let token = jwt.sign({ _id: user._id }, process.env.secret)
+
+//                 res.json({
+//                     message: "allow",
+//                     token,
+//                     id: user._id
+//                 })
+//             } else {
+//                 res.status(404).json({
+//                     message: "Email or password is incorrect"
+//                 })
+//             }
+//         } else {
+//             res.status(404).json({
+//                 message: "Email or password is incorrect"
+//             })
+//         }
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })
 app.post("/reclogin", async function (req, res) {
     try {
         let connection = await mongodb.connect(URL);
