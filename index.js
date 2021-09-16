@@ -267,14 +267,29 @@ app.get("/users/:id", authenticate, async function (req, res) {
     try {
         let connection = await mongodb.connect(URL);
         let db = connection.db(DB);
-        let users = await db.collection("users").findOne({ _id: mongodb.ObjectID(req.params.id) })
+        let users = await db.collection("users").find({ _id: mongodb.ObjectID(req.params.id) }).toArray();
         res.json(users)
+        console.log(users)
         await connection.close();
     } catch (error) {
         console.log(error)
     }
 })
 
+//get all users
+
+app.get("/users",  async function (req, res) {
+    try {
+        let connection = await mongodb.connect(URL);
+        let db = connection.db(DB);
+        let users = await db.collection("users").find().toArray();
+        res.json(users)
+        console.log(users)
+        await connection.close();
+    } catch (error) {
+        console.log(error)
+    }
+})
 //getting job details
 
 app.get("/job", authenticate, async function (req, res) {
@@ -314,6 +329,7 @@ app.get("/appliedjob/:id", authenticate, async function (req, res) {
         let connection = await mongodb.connect(URL);
         let db = connection.db(DB);
         let jobs = await db.collection("appliedjobs").find({ email: req.params.id}).toArray();
+        
         res.json(jobs)
         await connection.close();
     } catch (error) {
